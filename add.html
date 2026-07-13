@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Student</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:#f3f7fc;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+background:linear-gradient(135deg,#0b5ed7,#084298);
+color:#fff;
+padding:18px;
+display:flex;
+align-items:center;
+gap:15px;
+box-shadow:0 5px 18px rgba(0,0,0,.18);
+}
+
+.back-btn{
+width:45px;
+height:45px;
+border-radius:50%;
+background:rgba(255,255,255,.15);
+display:flex;
+justify-content:center;
+align-items:center;
+text-decoration:none;
+color:#fff;
+font-size:20px;
+transition:.3s;
+}
+
+.back-btn:hover{
+background:rgba(255,255,255,.25);
+}
+
+.header-text{
+flex:1;
+text-align:center;
+margin-right:60px;
+}
+
+.header-text h1{
+font-size:28px;
+margin-bottom:5px;
+}
+
+.header-text p{
+font-size:14px;
+opacity:.9;
+line-height:1.6;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+width:95%;
+max-width:750px;
+margin:35px auto;
+}
+
+/* ================= FORM CARD ================= */
+
+.form-card{
+background:#fff;
+border-radius:15px;
+padding:30px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+border-top:5px solid #0b5ed7;
+}
+
+.form-title{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:30px;
+}
+
+.form-title i{
+width:55px;
+height:55px;
+border-radius:50%;
+background:#e9f2ff;
+color:#0b5ed7;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:24px;
+}
+
+.form-title h2{
+font-size:25px;
+color:#0b5ed7;
+}
+
+.form-title span{
+display:block;
+font-size:14px;
+color:#666;
+margin-top:3px;
+}
+
+/* ================= FORM ================= */
+
+.form-group{
+margin-bottom:5px;
+}
+
+.form-group label{
+display:block;
+margin-bottom:8px;
+font-size:15px;
+font-weight:600;
+color:#333;
+}
+
+.form-group label i{
+color:#0b5ed7;
+margin-right:8px;
+}
+
+.form-group input,
+.form-group select{
+width:100%;
+height:50px;
+padding:0 15px;
+border:1px solid #ced4da;
+border-radius:10px;
+font-size:15px;
+outline:none;
+transition:.3s;
+background:#fff;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+border-color:#0b5ed7;
+box-shadow:0 0 0 3px rgba(11,94,215,.12);
+}
+
+/* ================= BUTTON ================= */
+
+.submit-btn{
+width:100%;
+height:52px;
+border:none;
+border-radius:10px;
+background:#198754;
+color:#fff;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+}
+
+.submit-btn:hover{
+background:#157347;
+}
+
+/* ================= POPUP ================= */
+
+.popup-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.45);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup{
+background:#fff;
+width:90%;
+max-width:360px;
+padding:30px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.18);
+}
+
+.popup i{
+font-size:70px;
+color:#198754;
+margin-bottom:15px;
+}
+
+.popup h2{
+color:#198754;
+margin-bottom:10px;
+}
+
+.popup p{
+color:#555;
+line-height:1.6;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+.header{
+padding:15px;
+}
+
+.back-btn{
+width:40px;
+height:40px;
+font-size:18px;
+}
+
+.header-text{
+margin-right:40px;
+}
+
+.header-text h1{
+font-size:22px;
+}
+
+.header-text p{
+font-size:12px;
+}
+
+.form-card{
+padding:20px;
+}
+
+.form-title{
+flex-direction:column;
+text-align:center;
+}
+
+.form-title h2{
+font-size:22px;
+}
+
+.submit-btn{
+font-size:16px;
+}
+
+}
+.input-box{
+    position:relative;
+}
+
+.input-box input,
+.input-box select{
+    width:100%;
+    
+    padding:20px 15px 8px;
+    border:1px solid #ced4da;
+    border-radius:10px;
+    font-size:15px;
+    outline:none;
+    background:#fff;
+}
+
+/* Hide placeholder text */
+.input-box input::placeholder{
+    color:transparent;
+}
+
+.input-box label{
+    position:absolute;
+    left:15px;
+    top:17px;
+    background:#fff;
+    padding:0 5px;
+    color:#777;
+    pointer-events:none;
+    transition:.25s ease;
+}
+
+.input-box input:focus + label,
+.input-box input:not(:placeholder-shown) + label,
+.input-box select:focus + label,
+.input-box select:valid + label{
+    top:-9px;
+    font-size:12px;
+    font-weight:600;
+    color:#0b5ed7;
+}/* ================= RESPONSIVE ================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+}
+
+.form-group{
+    width:100%;
+}
+
+.input-box input,
+.input-box select{
+    width:100%;
+}
+
+/* Tablet */
+
+@media (max-width:992px){
+
+.container{
+    max-width:95%;
+}
+
+.form-card{
+    padding:25px;
+}
+
+.form-grid{
+    gap:16px;
+}
+
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+.header{
+    padding:14px;
+}
+
+.back-btn{
+    width:42px;
+    height:42px;
+    font-size:18px;
+}
+
+.header-text{
+    margin-right:42px;
+}
+
+.header-text h1{
+    font-size:22px;
+}
+
+.header-text p{
+    font-size:12px;
+    line-height:1.5;
+}
+
+.container{
+    width:95%;
+    margin:20px auto;
+}
+
+.form-card{
+    padding:18px;
+    border-radius:12px;
+}
+
+.form-title{
+    flex-direction:column;
+    text-align:center;
+    gap:12px;
+}
+
+.form-title i{
+    width:50px;
+    height:50px;
+    font-size:22px;
+}
+
+.form-title h2{
+    font-size:22px;
+}
+
+.form-title span{
+    font-size:13px;
+}
+
+.form-grid{
+    grid-template-columns:1fr;
+    gap:15px;
+}
+
+.input-box input,
+.input-box select{
+    height:54px;
+    font-size:15px;
+}
+
+.submit-btn{
+    height:50px;
+    font-size:16px;
+}
+
+}
+
+/* Small Mobile */
+
+@media (max-width:480px){
+
+.header-text h1{
+    font-size:19px;
+}
+
+.header-text p{
+    font-size:11px;
+}
+
+.form-card{
+    padding:15px;
+}
+
+.input-box input,
+.input-box select{
+    height:52px;
+}
+
+.submit-btn{
+    height:48px;
+}
+
+}.section-heading{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:28px 0 20px;
+}
+
+.section-heading h3{
+    margin:0;
+    color:#0b5ed7;
+    font-size:20px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    white-space:nowrap;
+}
+
+.section-heading h3 i{
+    color:#0b5ed7;
+}
+
+.section-heading span{
+    flex:1;
+    height:2px;
+    background:#0b5ed7;
+    border-radius:2px;
+}
+
+@media(max-width:768px){
+
+.section-heading h3{
+    font-size:17px;
+}
+
+}.form-row-small{
+    display:grid;
+    grid-template-columns:110px 110px 90px;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.form-row-small .form-group{
+    margin:0;
+}
+
+@media(max-width:768px){
+
+.form-row-small{
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+}
+
+@media(max-width:480px){
+
+.form-row-small{
+    grid-template-columns:1fr;
+}
+
+}.upload-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #0b5ed7;
+}
+
+.upload-label span {
+  color: #777;
+  font-weight: 400;
+}
+
+.upload-box input[type=file] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.upload-box input[type=file]::file-selector-button {
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: 600;
+}
+
+.upload-box input[type=file]::file-selector-button:hover {
+  background: #084298;
+}.submit-btn:disabled{
+    background:#b5b5b5;
+    cursor:not-allowed;
+    opacity:.7;
+}
+
+.submit-btn:disabled:hover{
+    background:#b5b5b5;
+}.form-row-small{
+    display:grid;
+    grid-template-columns:110px 110px 90px 170px;
+    gap:12px;
+    margin-bottom:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<a href="index.html" class="back-btn">
+<i class="fa-solid fa-arrow-left"></i>
+</a>
+
+<div class="header-text">
+<h1>Add Student</h1>
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="form-card">
+
+<div class="form-title">
+
+<i class="fa-solid fa-user-plus"></i>
+
+<div>
+<h2>Student Registration</h2>
+<span>Enter complete student information</span>
+</div>
+
+</div>
+
+<form id="studentForm">
+  
+  <!-- Student Details -->
+  <div class="section-heading">
+    <span></span>
+  <h3>
+    <i class="fa-solid fa-user-graduate"></i>
+    Student Details
+  </h3>
+  <span></span>
+</div>
+  
+  <div class="form-grid">
+    
+    <div class="form-group">
+      <div class="input-box">
+        <input type="text" id="studentName" placeholder="Student Name" required>
+        <label for="studentName">
+          <i class="fa-solid fa-user"></i>
+          Student Name
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+  <div class="input-box">
+    <input type="text" id="studentId" placeholder="Student ID">
+    <label for="studentId">
+      <i class="fa-solid fa-id-card"></i>
+      Student ID
+    </label>
+  </div>
+</div>
+    <div class="form-group">
+      <div class="input-box">
+        <input type="date" id="dob" required>
+        <label for="dob">
+          <i class="fa-solid fa-calendar-days"></i>
+          Date of Birth
+        </label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="input-box">
+        <select id="gender" required>
+          <option selected>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <label for="gender">
+          <i class="fa-solid fa-venus-mars"></i>
+          Gender
+        </label>
+      </div>
+    </div>
+   
+   <div class="form-row-small">
+
+   <div class="form-row-small">
+  <!-- Class -->
+  <div class="form-group">
+    <div class="input-box">
+      <select id="class" required>
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+      
+      <label for="class">
+        <i class="fa-solid fa-school"></i>
+        Class
+      </label>
+    </div>
+  </div>
+  
+  <!-- Section -->
+  <div class="form-group">
+    <div class="input-box">
+      <select id="section" required>
+        <option value="A" selected>A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+      
+      <label for="section">
+        <i class="fa-solid fa-layer-group"></i>
+        Section
+      </label>
+    </div>
+  </div>
+  
+  <!-- Roll -->
+  <div class="form-group">
+    <div class="input-box">
+      <input type="number" id="roll" placeholder="Roll" required>
+      
+      <label for="roll">
+        <i class="fa-solid fa-list-ol"></i>
+        Roll
+      </label>
+    </div>
+  </div>
+  <!-- Status -->
+<div class="form-group">
+  <div class="input-box">
+    <select id="status" required>
+      <option value="None" selected>None</option>
+      <option value="Submitted">Submitted</option>
+      <option value="Under Process">Under Process</option>
+      <option value="Completed">Completed</option>
+      <option value="Rejected">Rejected</option>
+      <option value="Verification Failed">Verification Failed</option>
+    </select>
+
+    <label for="status">
+      <i class="fa-solid fa-circle-info"></i>
+      Status
+    </label>
+  </div>
+</div>
+</div>
+
+  
+</div>
+
+
+  </div>
+  
+  <!-- Parent Details -->
+  <div class="section-heading">
+    <span></span>
+  <h3>
+    <i class="fa-solid fa-people-roof"></i>
+    Parent Details
+  </h3>
+  <span></span>
+</div>
+
+
+  
+  <div class="form-grid">
+    
+    <div class="form-group">
+      <div class="input-box">
+        <input type="text" id="fatherName" placeholder="Father Name" required>
+        <label for="fatherName">
+          <i class="fa-solid fa-user-tie"></i>
+          Father Name
+        </label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="input-box">
+        <input type="text" id="motherName" placeholder="Mother Name" required>
+        <label for="motherName">
+          <i class="fa-solid fa-person-dress"></i>
+          Mother Name
+        </label>
+      </div>
+    </div>
+    
+  </div>
+  
+  <!-- Contact Details -->
+<div class="section-heading">
+  <span></span>
+  <h3>
+    <i class="fa-solid fa-phone"></i>
+    Contact Details
+  </h3>
+  <span></span>
+</div>
+
+<div class="form-grid">
+  
+  <!-- Primary Phone -->
+  <div class="form-group">
+    <div class="input-box">
+      <input type="tel" id="phone1" placeholder="Primary Phone Number" maxlength="10" required>
+      
+      <label for="phone1">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        Primary Phone Number
+      </label>
+    </div>
+  </div>
+  
+  <!-- Alternate Phone
+  <div class="form-group">
+    <div class="input-box">
+      <input type="tel" id="phone2" placeholder="Alternate Phone Number" maxlength="10">
+      
+      <label for="phone2">
+        <i class="fa-solid fa-phone-volume"></i>
+        Alternate Phone Number (Optional)
+      </label>
+    </div>
+  </div>
+  --->
+</div>
+
+<br />
+  <button type="submit" class="submit-btn" id="submitBtn" disabled>
+  <i class="fa-solid fa-user-plus"></i>
+  Add Student
+</button>
+  
+</form>
+
+</div>
+
+</div>
+
+<div class="popup-overlay" id="successPopup">
+  
+  <div class="popup">
+    
+    <i class="fa-solid fa-circle-check"></i>
+    
+    <h2>Student Added</h2>
+    
+    <p>
+      Student has been successfully registered.
+    </p>
+    
+  </div>
+  
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyBKU5YhyVsbXtk2RqvoydRQeXn9d07bzVM",
+  authDomain: "qr-scanner-265fd.firebaseapp.com",
+  projectId: "qr-scanner-265fd",
+  storageBucket: "qr-scanner-265fd.firebasestorage.app",
+  messagingSenderId: "128344651250",
+  appId: "1:128344651250:web:6a1a03806d701f26db276b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const form = document.getElementById("studentForm");
+const submitBtn = document.getElementById("submitBtn");
+
+const studentName = document.getElementById("studentName");
+const studentId = document.getElementById("studentId");
+const dob = document.getElementById("dob");
+const gender = document.getElementById("gender");
+const fatherName = document.getElementById("fatherName");
+const motherName = document.getElementById("motherName");
+const phone1 = document.getElementById("phone1");
+const studentClass = document.getElementById("class");
+const section = document.getElementById("section");
+const roll = document.getElementById("roll");
+const status = document.getElementById("status");
+const popup = document.getElementById("successPopup");
+
+submitBtn.disabled = true;
+
+const requiredFields = [
+  studentName,
+  studentId,
+  dob,
+  gender,
+  studentClass,
+  section,
+  roll,
+  status,
+  fatherName,
+  motherName,
+  phone1
+];
+
+
+requiredFields.forEach(field => {
+  field.addEventListener("input", checkForm);
+  field.addEventListener("change", checkForm);
+});
+
+function checkForm() {
+  
+  let valid = true;
+  
+  requiredFields.forEach(field => {
+    if (field.value.trim() === "") {
+      valid = false;
+    }
+  });
+  
+  if (!/^[0-9]{10}$/.test(phone1.value.trim())) {
+    valid = false;
+  }
+  
+  submitBtn.disabled = !valid;
+}
+
+form.addEventListener("submit", async function(e) {
+  
+  e.preventDefault();
+
+
+  if (submitBtn.disabled) return;
+  
+  try {
+    
+    await setDoc(doc(db, "students", phone1.value.trim()), {
+      studentId: studentId.value.trim(),
+      studentName: studentName.value.trim(),
+      dob: dob.value,
+      gender: gender.value,
+      fatherName: fatherName.value.trim(),
+      motherName: motherName.value.trim(),
+      phone1: phone1.value.trim(),
+      Class: studentClass.value,
+      section: section.value,
+      roll: roll.value.trim(),
+      status: status.value,
+      createdAt: serverTimestamp()
+    });
+    
+    
+    popup.style.display = "flex";
+
+    form.reset();
+    
+    submitBtn.disabled = true;
+    
+    setTimeout(() => {
+  popup.style.display = "none";
+  window.location.href = "index.html";
+  
+}, 2000);
+    
+  } catch (error) {
+  console.log(error);
+  console.log(error.code);
+  console.log(error.message);
+  
+  alert(error.code + "\n" + error.message);
+}
+  
+});
+</script>
+
+</body>
+</html>

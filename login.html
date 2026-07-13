@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Education Portal</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gov-blue: #0A2540;
+            --gov-saffron: #F2A900;
+            --gov-light: #F4F6F9;
+            --text-dark: #333333;
+            --text-muted: #666666;
+            --success: #2E7D32;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--gov-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- Minimal Government Header --- */
+        .gov-header {
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 3px solid var(--gov-saffron);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .gov-logo {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-title-text {
+            border-left: 2px solid #E2E8F0;
+            padding-left: 15px;
+        }
+
+        .header-title-text h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gov-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title-text p {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-right {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gov-blue);
+            background: var(--gov-light);
+            padding: 6px 14px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Main Layout Container --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 15px 20px;
+        }
+
+        .portal-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            overflow: hidden;
+            border-top: 4px solid var(--gov-blue);
+        }
+
+        .role-tabs {
+            display: flex;
+            background: var(--gov-blue);
+            border-bottom: 2px solid var(--gov-saffron);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tab-btn i {
+            margin-right: 8px;
+        }
+
+        .tab-btn.active {
+            color: #ffffff;
+            background: var(--gov-saffron);
+            color: var(--gov-blue);
+        }
+
+        .portal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 480px;
+        }
+
+        /* Left Panel (Image Display) */
+        .info-side {
+            background: linear-gradient(135deg, rgba(10, 37, 64, 0.95), rgba(10, 37, 64, 0.85)), 
+                        url('https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .info-side h2 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .info-side p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #E0E6ED;
+        }
+
+        /* Right Panel (Form Display) */
+        .form-side {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-title {
+            margin-bottom: 25px;
+        }
+
+        .form-title h3 {
+            font-size: 20px;
+            color: var(--gov-blue);
+            font-weight: 700;
+        }
+
+        .form-title p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 15px 12px 42px;
+            border: 1.5px solid #D1D5DB;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--gov-blue);
+        }
+
+        /* Login Action Button */
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #BDC3C7; 
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: not-allowed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .login-btn.enabled {
+            background-color: var(--gov-blue);
+            cursor: pointer;
+        }
+
+        /* Register Now Field */
+        .register-footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-dark);
+            display: none; 
+        }
+
+        .register-footer a {
+            color: var(--success);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* --- Mobile Layout Customizations --- */
+        @media (max-width: 768px) {
+            .gov-header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .header-title-text {
+                border-left: none;
+                padding-left: 0;
+            }
+
+            .header-right {
+                display: none; /* Hide supplementary badges on small viewports */
+            }
+
+            .portal-body {
+                grid-template-columns: 1fr;
+            }
+
+            .info-side {
+                display: none; 
+            }
+
+            .form-side {
+                padding: 30px 20px;
+                text-align: center;
+            }
+
+            .input-group label, .input-wrapper input {
+                text-align: left;
+            }
+        }.popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+.success-popup{
+    width:90%;
+    max-width:360px;
+    background:#fff;
+    border-radius:16px;
+    padding:35px 25px;
+    text-align:center;
+    animation:popup .25s ease;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+.success-icon i{
+    font-size:70px;
+    color:#16a34a;
+    margin-bottom:15px;
+}
+
+.success-popup h2{
+    color:#0A2540;
+    margin-bottom:10px;
+}
+
+.success-popup p{
+    color:#666;
+    line-height:1.6;
+}
+
+@keyframes popup{
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <!-- Minimal Government Header Component -->
+    <header class="gov-header">
+        <div class="header-left">
+            <img src="logo.jpg" alt="Government Logo" class="gov-logo" onerror="this.style.display='none';">
+            <div class="header-title-text">
+                <h1>Ministry of Education</h1>
+                <p>National Gateway Integrated Service Portal</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <i class="fa-solid fa-shield-halved"></i> SECURE SERVER
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="portal-container">
+            <!-- Navigation Switch Tabs -->
+            <div class="role-tabs">
+                <button id="studentTab" class="tab-btn active" onclick="switchRole('student', true)">
+                    <i class="fa-solid fa-user-graduate"></i>Student
+                </button>
+                <button id="teacherTab" class="tab-btn" onclick="switchRole('teacher', true)">
+                    <i class="fa-solid fa-chalkboard-user"></i>Teacher
+                </button>
+                <button id="headmasterTab" class="tab-btn" onclick="switchRole('headmaster', true)">
+                    <i class="fa-solid fa-user-tie"></i>Head Master
+                </button>
+            </div>
+
+            <div class="portal-body">
+                <!-- Left Column Section (Graphic/Info Panel) -->
+                <div class="info-side">
+                    <h2 id="infoTitle">Student Digital Portal</h2>
+                    <p id="infoDesc">Access your unified learning metrics, academic dashboard, class schedule, and national examinations profile securely.</p>
+                </div>
+
+                <!-- Right Column Section (Form Data Processing) -->
+                <div class="form-side">
+                    <div class="form-title">
+                        <h3 id="formHeading">Student Authentication</h3>
+                        <p>National Education Framework Gateway Management System</p>
+                    </div>
+
+                    <form id="loginForm" onsubmit="loginSuccess(event)">
+                        <div class="input-group">
+                            <label id="idLabel" for="username">Student Roll No. / Registration ID</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-id-card"></i>
+                                <input type="text" id="username" placeholder="Enter credentials..." oninput="validateForm()" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="password">Security Password</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="password" placeholder="••••••••" oninput="validateForm()" required>
+                                <div id="loginError" style="
+display:none;
+color:#dc3545;
+font-size:13px;
+font-weight:600;
+margin-top:10px;">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please enter correct Teacher ID and Password.
+</div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="loginBtn" class="login-btn" disabled>
+                            <i id="btnIcon" class="fa-solid fa-lock"></i>
+                            <span id="btnText">Fill Credentials</span>
+                        </button>
+                    </form>
+
+                    <!-- Student Register Now Footer Component -->
+                    <div class="register-footer" id="studentRegister">
+                        Don't have an account? <a href="#"><i class="fa-solid fa-user-plus"></i> Register Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+<div id="successPopup" class="popup-overlay">
+    <div class="success-popup">
+        <div class="success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h2>Login Successful</h2>
+
+        <p>
+            Authentication completed successfully.<br>
+            Redirecting to Dashboard...
+        </p>
+    </div>
+</div>
+    <!-- UI Core Automation Scripts -->
+    <script>
+        const contentMap = {
+            student: {
+                heading: "Student Authentication",
+                label: "Student Roll No. / Registration ID",
+                infoTitle: "Student Digital Portal",
+                infoDesc: "Access your unified learning metrics, academic dashboard, class schedule, and national examinations profile securely.",
+                allowRegister: true
+            },
+            teacher: {
+                heading: "Teacher Management System",
+                label: "Teacher Identification Number (TIN)",
+                infoTitle: "Faculty Administration Portal",
+                infoDesc: "Log in to organize curriculum matrix records, submit internal marks, update attendance patterns.",
+                allowRegister: false
+            },
+            headmaster: {
+                heading: "Institutional Administrator Login",
+                label: "Authorized Admin ID / Headmaster Code",
+                infoTitle: "Command & Operations Desk",
+                infoDesc: "Complete regulatory institution-wide compliance monitoring, manage staffing metrics, track budget charts.",
+                allowRegister: false
+            }
+        };
+
+        let currentRole = 'student';
+
+        function switchRole(role, userAction = false) {
+            currentRole = role;
+            
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                const clickAttr = tab.getAttribute('onclick');
+                if (clickAttr && clickAttr.includes(`'${role}'`)) {
+                    tab.classList.add('active');
+                }
+            });
+
+            const targetData = contentMap[role];
+            if (targetData) {
+                document.getElementById('formHeading').innerText = targetData.heading;
+                document.getElementById('idLabel').innerText = targetData.label;
+                document.getElementById('infoTitle').innerText = targetData.infoTitle;
+                document.getElementById('infoDesc').innerText = targetData.infoDesc;
+            }
+
+            const regBox = document.getElementById('studentRegister');
+            if (regBox) {
+                if (targetData && targetData.allowRegister && userAction) {
+                    regBox.style.display = 'block';
+                } else {
+                    regBox.style.display = 'none';
+                }
+            }
+
+            const userField = document.getElementById('username');
+            const passField = document.getElementById('password');
+            if (userField) userField.value = '';
+            if (passField) passField.value = '';
+            
+            validateForm();
+        }
+
+        function validateForm() {
+            const userEl = document.getElementById('username');
+            const passEl = document.getElementById('password');
+            const btn = document.getElementById('loginBtn');
+            const icon = document.getElementById('btnIcon');
+            const text = document.getElementById('btnText');
+
+            if (!userEl || !passEl || !btn) return;
+
+            const user = userEl.value.trim();
+            const pass = passEl.value.trim();
+
+            if (user !== "" && pass !== "") {
+                btn.disabled = false;
+                btn.classList.add('enabled');
+                if (icon) icon.className = "fa-solid fa-right-to-bracket"; 
+                if (text) text.innerText = "Secure Login";
+            } else {
+                btn.disabled = true;
+                btn.classList.remove('enabled');
+                if (icon) icon.className = "fa-solid fa-lock"; 
+                if (text) text.innerText = "Login";
+            }
+        }
+
+        window.onload = function() {
+            switchRole('student', true); // Default active student, completely hides register string text initially
+        };
+    function loginSuccess(e) {
+    
+    e.preventDefault();
+    
+    if (document.getElementById("loginBtn").disabled) {
+        return;
+    }
+    
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const error = document.getElementById("loginError");
+    
+    error.style.display = "none";
+    
+    // Teacher Login Validation
+    if (currentRole === "teacher") {
+        
+        if (username !== "1949" || password !== "brata@1234") {
+            error.innerHTML = `
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Please enter correct Teacher ID and Password.
+            `;
+            error.style.display = "block";
+            return;
+        }
+        
+    }
+    
+    document.getElementById("successPopup").style.display = "flex";
+    
+    setTimeout(() => {
+        document.getElementById("successPopup").style.display = "none";
+        localStorage.setItem("logined","true");
+location.href="index.html";
+    }, 2000);
+    
+}
+    </script>
+</body>
+</html>

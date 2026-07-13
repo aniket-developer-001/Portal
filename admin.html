@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Students Admin Panel</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="admin.css">
+<style type="text/css" media="all">
+  *{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI;
+}
+
+body{
+background:#eef3f8;
+}
+
+header{
+
+background:#0f4c81;
+color:white;
+padding:20px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+}
+
+.container{
+
+width:95%;
+max-width:1300px;
+margin:30px auto;
+
+}
+
+#search{
+
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:8px;
+margin-bottom:20px;
+font-size:15px;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+background:white;
+
+}
+
+thead{
+
+background:#0f4c81;
+color:white;
+
+}
+
+th,td{
+
+padding:14px;
+border:1px solid #ddd;
+text-align:center;
+
+}
+
+tbody tr:hover{
+
+background:#f4f8fc;
+
+}
+
+img{
+
+width:55px;
+height:55px;
+border-radius:50%;
+object-fit:cover;
+
+}
+
+.view{
+
+background:#0d6efd;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+
+}
+
+.delete{
+
+background:#dc3545;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+
+}.back-home-container{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:30px 0;
+}
+
+.back-home-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 28px;
+    background:#2563eb;
+    color:#fff;
+    text-decoration:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:600;
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
+    transition:.3s ease;
+}
+
+.back-home-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-3px);
+    box-shadow:0 12px 24px rgba(37,99,235,.35);
+}
+
+.back-home-btn:active{
+    transform:scale(.98);
+}
+
+.back-home-btn i{
+    font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h2>Students Portal Admin Panel</h2>
+
+<div id="totalStudents">
+Total Students : 0
+</div>
+
+</header>
+
+<div class="container">
+
+<input
+type="text"
+id="search"
+placeholder="Search Student..."
+>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Photo</th>
+<th>Name</th>
+<th>ID</th>
+<th>Class</th>
+<th>Phone</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable">
+
+</tbody>
+
+</table>
+
+</div>
+<div class="back-home-container">
+  <a href="index.html" class="back-home-btn">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back to Home</span>
+  </a>
+</div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+import {
+  
+  getFirestore,
+  
+  collection,
+  
+  getDocs,
+  
+  doc,
+  
+  deleteDoc
+  
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  
+  apiKey: "AIzaSyBKU5YhyVsbXtk2RqvoydRQeXn9d07bzVM",
+  
+  authDomain: "qr-scanner-265fd.firebaseapp.com",
+  
+  projectId: "qr-scanner-265fd",
+  
+  storageBucket: "qr-scanner-265fd.firebasestorage.app",
+  
+  messagingSenderId: "128344651250",
+  
+  appId: "1:128344651250:web:6a1a03806d701f26db276b"
+  
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const table = document.getElementById("studentTable");
+
+const total = document.getElementById("totalStudents");
+
+const search = document.getElementById("search");
+
+let students = [];
+
+async function loadStudents() {
+  
+  table.innerHTML = "";
+  
+  const snap = await getDocs(collection(db, "students"));
+  
+  students = [];
+  
+  snap.forEach(docu => {
+    
+    students.push({
+      
+      id: docu.id,
+      
+      ...docu.data()
+      
+    });
+    
+  });
+  
+  total.innerHTML = "Total Students : " + students.length;
+  
+  render(students);
+  
+}
+
+function render(list) {
+  
+  table.innerHTML = "";
+  
+  list.forEach(student => {
+    
+    table.innerHTML += `
+
+<tr>
+
+<td>
+
+<img src="${student.profileImage||'https://via.placeholder.com/60'}">
+
+</td>
+
+<td>${student.studentName||""}</td>
+
+<td>${student.studentId||""}</td>
+
+<td>${student.Class||""}</td>
+
+<td>${student.phone1||""}</td>
+
+<td>
+
+<button
+class="view"
+onclick="viewStudent('${student.id}')">
+View
+</button>
+
+<button
+class="delete"
+onclick="deleteStudent('${student.id}')">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+`;
+    
+  });
+  
+}
+
+window.deleteStudent = async (id) => {
+  
+  if (!confirm("Delete Student?")) return;
+  
+  await deleteDoc(doc(db, "students", id));
+  
+  loadStudents();
+  
+};
+
+window.viewStudent = (id) => {
+  
+  const s = students.find(x => x.id === id);
+  
+  alert(
+    
+    `
+
+Name : ${s.studentName}
+
+ID : ${s.studentId}
+
+Father : ${s.fatherName}
+
+Mother : ${s.motherName}
+
+Phone : ${s.phone1}
+
+Class : ${s.Class}
+
+Section : ${s.section}
+
+Roll : ${s.roll}
+
+DOB : ${s.dob}
+
+Gender : ${s.gender}
+
+`
+    
+  );
+  
+};
+
+search.oninput = () => {
+  
+  const value = search.value.toLowerCase();
+  
+  const filtered = students.filter(s =>
+    
+    (s.studentName || "").toLowerCase().includes(value) ||
+    
+    (s.studentId || "").toLowerCase().includes(value) ||
+    
+    (s.phone1 || "").toLowerCase().includes(value)
+    
+  );
+  
+  render(filtered);
+  
+};
+
+loadStudents();
+</script>
+
+</body>
+
+</html>
